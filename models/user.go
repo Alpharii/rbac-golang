@@ -1,13 +1,20 @@
 package models
 
-import (
-	"gorm.io/gorm"
-)
+type User struct {
+	ID       uint   `gorm:"primaryKey"`
+	Email    string `gorm:"unique;not null"`
+	Username string `gorm:"not null"`
+	Password string `gorm:"not null"`
+	Roles    []Role `gorm:"many2many:user_roles;"`
+}
 
-type User struct{
-	gorm.Model
-	Email string `json:"email"`
-	Name string `json:"name"`
-	Password string `json:"password"`
-	Role string `json:"role"`
+type Role struct {
+	ID          uint        `gorm:"primaryKey"`
+	Name        string      `gorm:"unique;not null"`
+	Permissions []Permission `gorm:"many2many:role_permissions;"`
+}
+
+type Permission struct {
+	ID   uint   `gorm:"primaryKey"`
+	Name string `gorm:"unique;not null"`
 }
